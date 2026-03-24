@@ -1,4 +1,4 @@
-function Cart({ cart }) {
+function Cart({ cart, increaseQuantity, decreaseQuantity, removeFromCart }) {
   const totalPrice = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
@@ -13,10 +13,19 @@ function Cart({ cart }) {
       ) : (
         <>
           {cart.map(item => (
-            <div key={item.id}>
-              <p>
-                {item.name} - ${item.price} x {item.quantity}
-              </p>
+            <div key={item.id} style={{ marginBottom: "1rem" }}>
+              <p>{item.name} - ${item.price} x {item.quantity}</p>
+
+              <button onClick={() => decreaseQuantity(item.id)}>-</button>
+              <span style={{ margin: "0 0.5rem" }}>{item.quantity}</span>
+              <button onClick={() => increaseQuantity(item.id)}>+</button>
+
+              <button 
+                onClick={() => removeFromCart(item.id)} 
+                style={{ marginLeft: "1rem" }}
+              >
+                Remove
+              </button>
             </div>
           ))}
 
