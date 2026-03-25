@@ -1,15 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Navbar from "./components/Navbar";
+import Home from "./components/Home";
 import Shop from "./components/Shop";
 import Cart from "./components/Cart";
 
 function App() {
   const [cart, setCart] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const products = [
-    { id: 1, name: "Shirt", price: 20 },
-    { id: 2, name: "Pants", price: 40 },
-    { id: 3, name: "Shoes", price: 60 }
-  ];
+  useEffect(() => {
+    fetch("https://fakestoreapi.com/products")
+      .then(res => res.json())
+      .then(data => {
+        setProducts(data);
+        setLoading(false);
+      });
+  }, []);
 
   function addToCart(product) {
     setCart(prev => {
@@ -27,7 +36,6 @@ function App() {
     });
   }
 
-  // Cart functions
   function increaseQuantity(id) {
     setCart(prev =>
       prev.map(item =>
@@ -38,12 +46,11 @@ function App() {
 
   function decreaseQuantity(id) {
     setCart(prev =>
-      prev
-        .map(item =>
-          item.id === id
-            ? { ...item, quantity: Math.max(item.quantity - 1, 1) }
-            : item
-        )
+      prev.map(item =>
+        item.id === id
+          ? { ...item, quantity: Math.max(item.quantity - 1, 1) }
+          : item
+      )
     );
   }
 
@@ -52,16 +59,39 @@ function App() {
   }
 
   return (
-    <div>
-      <Shop products={products} addToCart={addToCart} />
+    <BrowserRouter>
+      <Navbar cart={cart} />
 
-      <Cart 
-        cart={cart} 
-        increaseQuantity={increaseQuantity} 
-        decreaseQuantity={decreaseQuantity} 
-        removeFromCart={removeFromCart} 
-      />
-    </div>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <Routes>
+          {/* Home page */}
+            <Route path="/" element={<Home />} />
+
+          {/* Shop page */}
+          <Route
+            path="/shop"
+            element={
+              <Shop products={products} addToCart={addToCart} />
+            }
+          />
+
+          {/* Cart page */}
+          <Route
+            path="/cart"
+            element={
+              <Cart
+                cart={cart}
+                increaseQuantity={increaseQuantity}
+                decreaseQuantity={decreaseQuantity}
+                removeFromCart={removeFromCart}
+              />
+            }
+          />
+        </Routes>
+      )}
+    </BrowserRouter>
   );
 }
 

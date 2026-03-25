@@ -14,7 +14,7 @@ function Cart({ cart, increaseQuantity, decreaseQuantity, removeFromCart }) {
         <>
           {cart.map(item => (
             <div key={item.id} style={{ marginBottom: "1rem" }}>
-              <p>{item.name} - ${item.price} x {item.quantity}</p>
+              <p>{item.title} - ${item.price} x {item.quantity}</p>
 
               <button onClick={() => decreaseQuantity(item.id)}>-</button>
               <span style={{ margin: "0 0.5rem" }}>{item.quantity}</span>

@@ -5,13 +5,12 @@ function Shop({ products, addToCart }) {
 
       {products.map(product => (
         <div key={product.id}>
-          <p>{product.name} - ${product.price}</p>
-
-          <button onClick={() => addToCart(product)}>
-            Add to Cart
-          </button>
+            <img src={product.image} alt={product.title} width={100} />
+            <p>{product.title}</p>
+            <p>${product.price}</p>
+            <button onClick={() => addToCart(product)}>Add to Cart</button>
         </div>
-      ))}
+        ))}
     </div>
   );
 }
