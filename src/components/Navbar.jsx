@@ -9,7 +9,7 @@ function Navbar({ cart }) {
   return (
     <nav style={{ display: "flex", justifyContent: "space-between" }}>
         <Link to="/" style={{ textDecoration: "none", color: "black" }}>
-            <h1>Clothes Shop</h1>
+            <h1>FakeShop</h1>
         </Link>
 
         <div>

@@ -20,14 +20,14 @@ function App() {
       });
   }, []);
 
-  function addToCart(product) {
+  const addToCart = (product) => {
     setCart(prev => {
       const existingItem = prev.find(item => item.id === product.id);
 
       if (existingItem) {
         return prev.map(item =>
           item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: Math.min(item.quantity + 1, 10) }
             : item
         );
       }
@@ -36,15 +36,17 @@ function App() {
     });
   }
 
-  function increaseQuantity(id) {
-    setCart(prev =>
-      prev.map(item =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+  const increaseQuantity = (id) => {
+    setCart(prevCart =>
+      prevCart.map(item =>
+        item.id === id
+          ? { ...item, quantity: Math.min(item.quantity + 1, 10) }
+          : item
       )
     );
-  }
+  };
 
-  function decreaseQuantity(id) {
+  const decreaseQuantity = (id) => {
     setCart(prev =>
       prev.map(item =>
         item.id === id
@@ -54,9 +56,25 @@ function App() {
     );
   }
 
-  function removeFromCart(id) {
+  const setQuantity = (id, newQuantity) => {
+    const MIN = 1;
+    const MAX = 10; 
+
+    setCart(prevCart =>
+      prevCart.map(item => {
+        if (item.id !== id) return item;
+
+        // restrict quantity within max limit range
+        const clampedQuantity = Math.max(MIN, Math.min(MAX, newQuantity));
+
+        return { ...item, quantity: clampedQuantity };
+      })
+    );
+  };
+
+  const removeFromCart = (id) => {
     setCart(prev => prev.filter(item => item.id !== id));
-  }
+  };
 
   return (
     <BrowserRouter>
@@ -85,6 +103,7 @@ function App() {
                 cart={cart}
                 increaseQuantity={increaseQuantity}
                 decreaseQuantity={decreaseQuantity}
+                setQuantity={setQuantity}
                 removeFromCart={removeFromCart}
               />
             }
