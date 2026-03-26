@@ -5,8 +5,10 @@ function Cart({ cart, increaseQuantity, decreaseQuantity, removeFromCart, setQua
 
   return (
     <div className="cart-container">
-      <h2>Shopping Cart</h2>
-
+      <div className="cart-items">
+        <h2>Shopping Cart</h2>
+      </div>
+      
       {cart.length === 0 ? (
         <p>Your cart is empty</p>
       ) : (
