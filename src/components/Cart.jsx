@@ -49,7 +49,12 @@ function Cart({ cart, increaseQuantity, decreaseQuantity, removeFromCart, setQua
             </div>
           ))}
 
-          <h3>Total: ${totalPrice}</h3>
+          <h3>
+            Total: {totalPrice.toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+            })}
+          </h3>
         </>
       )}
     </div>

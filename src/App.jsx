@@ -1,3 +1,4 @@
+import "./App.css";
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -79,37 +80,38 @@ function App() {
   return (
     <BrowserRouter>
       <Navbar cart={cart} />
+      <div className="AppContainer">    
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <Routes>
+            {/* Home page */}
+              <Route path="/" element={<Home />} />
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <Routes>
-          {/* Home page */}
-            <Route path="/" element={<Home />} />
+            {/* Shop page */}
+            <Route
+              path="/shop"
+              element={
+                <Shop products={products} addToCart={addToCart} />
+              }
+            />
 
-          {/* Shop page */}
-          <Route
-            path="/shop"
-            element={
-              <Shop products={products} addToCart={addToCart} />
-            }
-          />
-
-          {/* Cart page */}
-          <Route
-            path="/cart"
-            element={
-              <Cart
-                cart={cart}
-                increaseQuantity={increaseQuantity}
-                decreaseQuantity={decreaseQuantity}
-                setQuantity={setQuantity}
-                removeFromCart={removeFromCart}
-              />
-            }
-          />
-        </Routes>
-      )}
+            {/* Cart page */}
+            <Route
+              path="/cart"
+              element={
+                <Cart
+                  cart={cart}
+                  increaseQuantity={increaseQuantity}
+                  decreaseQuantity={decreaseQuantity}
+                  setQuantity={setQuantity}
+                  removeFromCart={removeFromCart}
+                />
+              }
+            />
+          </Routes>
+        )}
+      </div>
     </BrowserRouter>
   );
 }
